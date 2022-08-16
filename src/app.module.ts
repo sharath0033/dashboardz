@@ -4,7 +4,8 @@ import { FirebaseAdminModule } from '@aginix/nestjs-firebase-admin';
 import { credential } from 'firebase-admin';
 
 import { CommonModule } from './common';
-import { DashboardModule } from './dashboard';
+import { SharedModule } from './shared';
+import { DashboardsModule } from './dashboards';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -19,7 +20,8 @@ import { AppService } from './app.service';
       inject: [ConfigService]
     }),
     CommonModule,
-    DashboardModule,
+    SharedModule,
+    DashboardsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
