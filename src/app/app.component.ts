@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
+import { AppService } from './app.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -8,25 +10,25 @@ import { Subscription } from 'rxjs';
 })
 export class AppComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
-  isSplashLoading: boolean = true;
   isAppPreloader: boolean = false;
-  routeLoading: boolean = true;
+  dashboardsList: any[] = [];
 
-  dashboardsList: any[] = [{
-    id: '23w4edfvbn6r5t7y',
-    name: 'Revenue Dashboard'
-  }, {
-    id: 'nj5nk4t5n98ferefrn',
-    name: 'Advertising Dashboard'
-  }, {
-    id: '87f44r8rnrv9r8hvr9r',
-    name: 'Marketing Dashboard'
-  }]
+  constructor(private appService: AppService) { }
 
-  constructor() {
+  ngOnInit() {
+    this.initializeData();
   }
 
-  ngOnInit() { }
+  initializeData(): void {
+    this.isAppPreloader = true;
+    this.subscriptions.add(
+      this.appService.getDashboardsList()
+        .subscribe({
+          next: (response) => this.dashboardsList = response,
+          complete: () => this.isAppPreloader = false
+        })
+    );
+  }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();

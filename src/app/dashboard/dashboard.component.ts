@@ -3,6 +3,10 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { KtdGridLayout, KtdGridLayoutItem, ktdTrackById } from '@saras-analytics/angular-grid-layout';
 import { Subscription } from 'rxjs';
+import { Location } from '@angular/common';
+import * as dayjs from 'dayjs';
+
+import { DashboardService } from './dashboard.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,10 +15,11 @@ import { Subscription } from 'rxjs';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
+  isPreloader: boolean = false;
   maxReportDate: Date = new Date();
   isEdit: boolean = false;
-  dashboardId: string;
-  dashboardLayout: KtdGridLayout = []
+  dashboardId: string = 'create';
+  dashboardLayout: KtdGridLayout = [];
   trackById = ktdTrackById;
   bsConfig: any = {
     containerClass: 'theme-default',
@@ -45,14 +50,42 @@ export class DashboardComponent implements OnInit, OnDestroy {
     widgets: new FormArray([])
   });
 
-  constructor(route: ActivatedRoute) {
-    this.dashboardId = route.snapshot.paramMap.get('dashboardId') || '0';
-    if (this.dashboardId === 'create') {
-      this.editDashboard();
-    }
+  constructor(
+    private route: ActivatedRoute,
+    private location: Location,
+    private dashboardService: DashboardService
+  ) { }
+
+  ngOnInit() {
+    console.log(dayjs().format());
+    this.subscriptions.add(
+      this.route.params.subscribe(_params => {
+        this.dashboardId = _params.dashboardId;
+        if (this.dashboardId === 'create') {
+          this.dashboardForm.reset();
+          this.editDashboard();
+        } else {
+          this.initializeData();
+        }
+      })
+    );
   }
 
-  ngOnInit(): void {
+  initializeData(): void {
+    this.isPreloader = true;
+    this.isEdit = false;
+    this.dashboardLayout = [];
+    this.subscriptions.add(
+      this.dashboardService.getDashboard(this.dashboardId)
+        .subscribe({
+          next: (response) => this.setUpDashboard(response),
+          complete: () => this.isPreloader = false
+        })
+    );
+  }
+
+  setUpDashboard(_dashboard: any): void {
+    this.dashboardForm.get('name')?.setValue(_dashboard.name);
   }
 
   onDateChange(): void {
@@ -66,7 +99,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   addWidgetToLayout(): void {
-    const maxId = this.dashboardLayout.reduce((acc, cur) => Math.max(acc, parseInt(cur.id, 10)), -1);
+    const maxId = this.dashboardLayout.reduce((_acc, _cur) => Math.max(_acc, parseInt(_cur.id, 10)), -1);
     const lastItem = this.dashboardLayout[this.dashboardLayout.length - 1]
     const nextId = maxId + 1;
     const newWidgetItem: KtdGridLayoutItem = {
@@ -84,11 +117,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         widgetCategoryId: null,
       }
     };
-    // Important: Don't mutate the array, create new instance. This way notifies the Grid component that the layout has changed.
-    this.dashboardLayout = [
-      ...this.dashboardLayout,
-      newWidgetItem
-    ];
+    this.dashboardLayout = [...this.dashboardLayout, newWidgetItem];
   }
 
   onLayoutUpdated(_layout: KtdGridLayout): void {
@@ -114,6 +143,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   discardChanges(): void {
     this.isEdit = false;
+    if (this.dashboardId === 'create') {
+      this.location.back();
+    } else {
+      this.initializeData();
+    }
   }
 
   saveChanges(): void {
