@@ -1,5 +1,5 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-    <form [formGroup]="dashboardForm">
+    <form [formGroup]="dashboardForm" *ngIf="!isPreloader; else preloader">
         <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
             <div class="d-flex align-items-center">
                 <input type="text" class="dashboard-name" formControlName="name" placeholder="Enter Dashboard name" />
@@ -28,7 +28,8 @@
                 </div>
             </div>
         </div>
-        <ktd-grid [cols]="16" [rowHeight]="50" [layout]="dashboardLayout" (layoutUpdated)="onLayoutUpdated($event)">
+        <ktd-grid *ngIf="dashboardLayout.length; else noWidgetsRef" [cols]="16" [rowHeight]="50"
+            [layout]="dashboardLayout" (layoutUpdated)="onLayoutUpdated($event)">
             <ktd-grid-item [id]="item.id" *ngFor="let item of dashboardLayout; trackBy:trackById">
                 <div class="grid-item-remove-handle" stopEventPropagation (click)="removeItem(item.id)"></div>
                 <div class="card grid-item-card">
@@ -48,3 +49,14 @@
         </ktd-grid>
     </form>
 </main>
+<ng-template #noWidgetsRef>
+    <div class="no-data-container">
+        <h3 class="main-text">Dashboard View</h3>
+        <div class="sub-text">Please click on <b>Add Widget</b> button and start build dashboard</div>
+    </div>
+</ng-template>
+<ng-template #preloader>
+    <div id="preloader-wrapper">
+        <span id="preloader" class="spinner-border" [ngClass]="size"></span>
+    </div>
+</ng-template>

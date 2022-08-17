@@ -6,6 +6,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboards', pathMatch: 'full' },
+  { path: 'dashboards', redirectTo: 'dashboards/create', pathMatch: 'full' },
   {
     path: 'dashboards/:dashboardId',
     component: DashboardComponent,

@@ -19,17 +19,17 @@ export class Dashboard {
         example: 1234562345,
         description: 'Dashboard from date'
     })
-    daterangefrom: number;
+    daterangefrom?: number;
 
     @ApiProperty({
         example: 1234562345,
         description: 'Dashboard to date'
     })
-    daterangeto: number;
+    daterangeto?: number;
 
     @ApiProperty({
         example: [Widget],
         description: 'Dashboard widgets'
     })
-    widgets: Widget[];
+    widgets?: Widget[];
 }
