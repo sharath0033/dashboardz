@@ -1,4 +1,18 @@
 :host {
+    .dashboard-name {
+        line-height: 40px;
+        font-size: 20px;
+        border: 1px solid transparent;
+        outline: none;
+        padding: 0 10px;
+        border-radius: 5px;
+        &.ng-touched.ng-invalid {
+            border-color: red;
+        }
+    }
+    .dashboard-daterange {
+        width: 250px;
+    }
     .grid-item-remove-handle {
         position: absolute;
         cursor: pointer;
@@ -8,13 +22,21 @@
         height: 20px;
         top: 16px;
         right: 16px;
-
+        z-index: 1;
+        &:hover {
+            &::after {
+                background-color: #bbbbbb;
+            }
+        }
         &::after {
             content: "x";
             color: #121212;
-            font-size: 16px;
+            font-size: 14px;
+            line-height: 10px;
             font-weight: 300;
             font-family: Arial, sans-serif;
+            padding: 4px 6px;
+            border-radius: 50%;
         }
     }
     .grid-item-card {

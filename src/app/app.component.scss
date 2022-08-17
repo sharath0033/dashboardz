@@ -3,6 +3,28 @@
         position: relative;
     }
 
+    #sidebarMenu .dashboards-list {
+        li {
+            font-size: 16px;
+            &:not(.create-dahboard-button) {
+                .router-link-active {
+                    background-color: lightblue;
+                }
+                &:hover {
+                    background-color: lightgrey;
+                }
+            }
+            &.create-dahboard-button {
+                display: flex;
+                justify-content: center;
+                align-items: flex-end;
+                button {
+                    width: calc(100% - 20px);
+                }
+            }
+        }
+    }
+
     /* App Preloader */
     #preloader-overlay {
         position: absolute;

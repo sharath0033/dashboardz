@@ -1,14 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  Router,
-  RouterEvent,
-  NavigationStart,
-  NavigationEnd,
-  NavigationCancel,
-  NavigationError,
-  ResolveEnd,
-  ActivatedRoute
-} from '@angular/router'
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -18,9 +8,23 @@ import { Subscription } from 'rxjs';
 })
 export class AppComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
+  isSplashLoading: boolean = true;
   isAppPreloader: boolean = false;
+  routeLoading: boolean = true;
 
-  constructor() { }
+  dashboardsList: any[] = [{
+    id: '23w4edfvbn6r5t7y',
+    name: 'Revenue Dashboard'
+  }, {
+    id: 'nj5nk4t5n98ferefrn',
+    name: 'Advertising Dashboard'
+  }, {
+    id: '87f44r8rnrv9r8hvr9r',
+    name: 'Marketing Dashboard'
+  }]
+
+  constructor() {
+  }
 
   ngOnInit() { }
 

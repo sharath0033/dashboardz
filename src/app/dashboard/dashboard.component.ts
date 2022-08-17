@@ -1,4 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { KtdGridLayout, KtdGridLayoutItem, ktdTrackById } from '@saras-analytics/angular-grid-layout';
 import { Subscription } from 'rxjs';
 
@@ -10,11 +12,10 @@ import { Subscription } from 'rxjs';
 export class DashboardComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
   maxReportDate: Date = new Date();
-  dashboardId: number = 0;
-  dahboardCompactType: 'vertical' | 'horizontal' | null = 'vertical';
+  isEdit: boolean = false;
+  dashboardId: string;
   dashboardLayout: KtdGridLayout = []
   trackById = ktdTrackById;
-  dashboardDateRange: any = null;
   bsConfig: any = {
     containerClass: 'theme-default',
     rangeInputFormat: 'MMM DD, YYYY',
@@ -38,7 +39,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }]
   }
 
-  constructor() { }
+  dashboardForm: FormGroup = new FormGroup({
+    name: new FormControl(null, Validators.required),
+    daterange: new FormControl(this.bsConfig.ranges[0].value, Validators.required),
+    widgets: new FormArray([])
+  });
+
+  constructor(route: ActivatedRoute) {
+    this.dashboardId = route.snapshot.paramMap.get('dashboardId') || '0';
+    if (this.dashboardId === 'create') {
+      this.editDashboard();
+    }
+  }
 
   ngOnInit(): void {
   }
@@ -53,7 +65,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } */
   }
 
-  addWidgetToLayout() {
+  addWidgetToLayout(): void {
     const maxId = this.dashboardLayout.reduce((acc, cur) => Math.max(acc, parseInt(cur.id, 10)), -1);
     const lastItem = this.dashboardLayout[this.dashboardLayout.length - 1]
     const nextId = maxId + 1;
@@ -79,21 +91,33 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ];
   }
 
-  onLayoutUpdated(layout: KtdGridLayout) {
-    this.dashboardLayout = layout;
+  onLayoutUpdated(_layout: KtdGridLayout): void {
+    this.dashboardLayout = _layout;
   }
 
-  ktdArrayRemoveItem<T>(array: T[], condition: (item: T) => boolean) {
-    const arrayCopy = [...array];
-    const index = array.findIndex((item) => condition(item));
+  ktdArrayRemoveItem<T>(_array: T[], _condition: (item: T) => boolean): T[] {
+    const arrayCopy = [..._array];
+    const index = _array.findIndex((item) => _condition(item));
     if (index > -1) {
       arrayCopy.splice(index, 1);
     }
     return arrayCopy;
   }
 
-  removeItem(id: string) {
-    this.dashboardLayout = this.ktdArrayRemoveItem(this.dashboardLayout, (item: any) => item.id === id);
+  removeItem(_widgetId: string): void {
+    this.dashboardLayout = this.ktdArrayRemoveItem(this.dashboardLayout, (item: any) => item.id === _widgetId);
+  }
+
+  editDashboard(): void {
+    this.isEdit = true;
+  }
+
+  discardChanges(): void {
+    this.isEdit = false;
+  }
+
+  saveChanges(): void {
+
   }
 
   ngOnDestroy(): void {
