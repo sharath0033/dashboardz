@@ -1,0 +1,45 @@
+:host {
+    .grid-item-remove-handle {
+        position: absolute;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        top: 16px;
+        right: 16px;
+
+        &::after {
+            content: "x";
+            color: #121212;
+            font-size: 16px;
+            font-weight: 300;
+            font-family: Arial, sans-serif;
+        }
+    }
+    .grid-item-card {
+        height: 100%;
+    }
+    ::ng-deep {
+        .grid-item-resize-icon {
+            bottom: 10px !important;
+            right: 10px !important;
+        }
+        ktd-grid {
+            transition: height 500ms ease;
+            .ktd-grid-item-placeholder {
+                background-color: lightblue;
+            }
+            ktd-grid-item {
+                color: #121212;
+                cursor: grab;
+                padding: 0.5rem;
+                width: 100%;
+
+                &.ktd-grid-item-dragging {
+                    cursor: grabbing;
+                }
+            }
+        }
+    }
+}
