@@ -18,7 +18,7 @@
     "@angular/platform-browser": "~12.2.0",
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
-    "@ng-select/ng-select": "^9.0.2",
+    "@ng-select/ng-select": "^7.4.0",
     "@saras-analytics/angular-grid-layout": "^0.1.1",
     "apexcharts": "^3.35.4",
     "bootstrap": "5.1.0",

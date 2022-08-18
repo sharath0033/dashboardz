@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { AppService } from './app.service';
+import { AppService } from './services';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +16,10 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private appService: AppService) { }
 
   ngOnInit() {
-    this.initializeData();
+    this.subscriptions.add(
+      this.appService.getReloadState()
+        .subscribe(_ => this.initializeData())
+    );
   }
 
   initializeData(): void {

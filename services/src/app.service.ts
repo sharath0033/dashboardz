@@ -13,7 +13,10 @@ export class AppService {
   ) { }
 
   async getDimensions(): Promise<Dimension[]> {
-    const querySnapshot = await this.fbFirestore.collection('columns').doc('dimensions').get();
+    const querySnapshot = await this.fbFirestore
+      .collection('columns')
+      .doc('dimensions')
+      .get();
     return Object.entries(querySnapshot.data()).map(([key, value]) => {
       return {
         name: key,

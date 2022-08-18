@@ -1,0 +1,44 @@
+<button type="button" class="btn btn-sm btn-outline-primary" (click)="openWidgetPopup(template)">
+    Add Widget
+</button>
+<ng-template #template>
+    <div class="modal-body">
+        <h4 class="mb-3">Select Widget</h4>
+        <ul class="widgets-list">
+            <li class="card" *ngFor="let chart of chertTypesList"
+                [ngClass]="{'active': chart.refcode === selectedChartType?.refcode}" (click)="selectChartType(chart)">
+                <div class="card-body">{{chart.label}}</div>
+            </li>
+        </ul>
+        <form class="mapping-form" *ngIf="selectedChartType" [formGroup]="widgetForm">
+            <h5>Chart Mapping</h5>
+            <div class="form-group">
+                <label for="widgetname" class="col-sm-2 col-form-label">Name</label>
+                <input type="name" class="form-control" id="widgetname" formControlName="name">
+            </div>
+            <form [formGroup]="mappingForm">
+                <div class="form-group" *ngFor="let control of mappingForm.controls | keyvalue">
+                    <label [for]="control.key" class="col-sm-2 col-form-label">{{control.value.label}}</label>
+                    <ng-container [ngSwitch]="control.value.type">
+                        <ng-container *ngSwitchCase="'TEXT'">
+                            <input type="name" class="form-control" [id]="control.key" [formControlName]="control.key">
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'DROPDOWN'">
+                            <ng-select class="select-form-control" [items]="dimensionsList" [selectOnTab]="true"
+                                bindLabel="name" bindValue="name" [hideSelected]="true" [formControlName]="control.key">
+                            </ng-select>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </form>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-outline-secondary btn-sm" (click)="modalRef.hide()">Cancel</button>
+        <button class="btn btn-outline-primary btn-sm" (click)="addWidgetToLayout()"
+            [disabled]="widgetForm.invalid">Add</button>
+    </div>
+</ng-template>
+<ng-template #preloader>
+    <ha-preloader class="preloader py-2"></ha-preloader>
+</ng-template>

@@ -9,19 +9,19 @@ import { ApplicationService } from 'src/app/core/application';
 @Injectable({
     providedIn: 'root'
 })
-export class DashboardService {
+export class WidgetService {
     constructor(
         private http: HttpClient,
-        protected appService: ApplicationService,
+        protected applicationService: ApplicationService,
     ) { }
 
-    getDashboard(dashboardId: string): Observable<any> {
-        const headers = this.appService.setContentTypeHeader();
+    getDimensions(): Observable<any> {
+        const headers = this.applicationService.setContentTypeHeader();
         return this.http.get<any>(
-            `${environment.serviceURL}/dashboards/${dashboardId}`,
+            `${environment.serviceURL}/dimensions`,
             { headers }
         ).pipe(
-            catchError(err => this.appService.handleError(err))
+            catchError(err => this.applicationService.handleError(err))
         );
     }
 }

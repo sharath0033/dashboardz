@@ -12,7 +12,9 @@ export class DashboardsService {
 
     async listDashboards(): Promise<Dashboard[]> {
         let dasboardsList: Dashboard[] = [];
-        const querySnapshots = await this.fbFirestore.collection('dashboards').get();
+        const querySnapshots = await this.fbFirestore
+            .collection('dashboards')
+            .get();
         querySnapshots.forEach(snapshot => {
             const dashboard: any = snapshot.data();
             dasboardsList.push({
@@ -23,28 +25,39 @@ export class DashboardsService {
         return dasboardsList;
     }
 
-
     async getDashboard(dashboardId: string): Promise<Dashboard> {
-        const querySnapshot = await this.fbFirestore.collection('dashboards').doc(dashboardId).get();
+        const querySnapshot = await this.fbFirestore
+            .collection('dashboards')
+            .doc(dashboardId)
+            .get();
         const dashboard: any = querySnapshot.data();
-        return {
+        return dashboard ? {
             id: querySnapshot.id,
             ...dashboard,
-        }
+        } : null;
     }
 
-
-    async createDashboard(body: DashboardDto): Promise<string> {
-        return;
+    async createDashboard(body: DashboardDto): Promise<Dashboard> {
+        const querySnapshot = await this.fbFirestore
+            .collection('dashboards')
+            .add(body);
+        return {
+            id: querySnapshot.id,
+            ...body
+        };
     }
 
-
-    async updateDashboard(dashboardId: string, body: DashboardDto): Promise<string> {
-        return;
+    async updateDashboard(dashboardId: string, body: DashboardDto): Promise<void> {
+        await this.fbFirestore
+            .collection('dashboards')
+            .doc(dashboardId)
+            .update(body);
     }
-
 
     async deleteDashboard(dashboardId: string): Promise<void> {
-        return;
+        await this.fbFirestore
+            .collection('dashboards')
+            .doc(dashboardId)
+            .delete();
     }
 }

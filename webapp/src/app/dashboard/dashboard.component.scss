@@ -6,9 +6,6 @@
         outline: none;
         padding: 0 10px;
         border-radius: 5px;
-        &.ng-touched.ng-invalid {
-            border-color: red;
-        }
     }
     .dashboard-daterange {
         width: 250px;

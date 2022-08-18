@@ -3,48 +3,38 @@
         <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
             <div class="d-flex align-items-center">
                 <input type="text" class="dashboard-name" formControlName="name" placeholder="Enter Dashboard name" />
-                <button type="button" *ngIf="!isEdit; else saveBtnRef" class="btn btn-sm btn-outline-primary"
-                    (click)="editDashboard()">
-                    Edit
-                </button>
+                <ng-container *ngIf="!isEdit; else saveBtnRef">
+                    <button type="button" class="btn btn-sm btn-outline-primary" (click)="editDashboard()">Edit</button>
+                    <button type="button" class="btn btn-sm btn-outline-danger"
+                        (click)="deleteDashboard()">Delete</button>
+                </ng-container>
                 <ng-template #saveBtnRef>
                     <button type="button" class="btn btn-sm btn-outline-secondary" (click)="discardChanges()">
                         Discard
                     </button>
-                    <button type="button" class="btn btn-sm btn-outline-primary" (click)="saveChanges()">
-                        Save
-                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-primary" [disabled]="dashboardForm.invalid"
+                        (click)="saveChanges()">Save</button>
                 </ng-template>
             </div>
             <div class="btn-toolbar d-flex align-items-center mb-2 mb-md-0">
-                <button type="button" class="btn btn-sm btn-outline-primary" *ngIf="isEdit"
-                    (click)="addWidgetToLayout()">
-                    Add Widget
-                </button>
+                <app-widget-popup *ngIf="isEdit" (event)="addWidgetToLayout($event)"></app-widget-popup>
                 <div class="dashboard-daterange">
-                    <input type="text" class="form-control" placeholder="Daterangepicker" #dtime bsDaterangepicker
-                        formControlName="daterange" (bsValueChange)="onDateChange()" [bsConfig]="bsConfig"
+                    <input type="text" class="form-control" placeholder="Daterangepicker" bsDaterangepicker
+                        formControlName="daterange" (ngModelChange)="onDateChange()" [bsConfig]="bsConfig"
                         [maxDate]="maxReportDate" placement="bottom right" />
                 </div>
             </div>
         </div>
         <ktd-grid *ngIf="dashboardLayout.length; else noWidgetsRef" [cols]="16" [rowHeight]="50"
             [layout]="dashboardLayout" (layoutUpdated)="onLayoutUpdated($event)">
-            <ktd-grid-item [id]="item.id" *ngFor="let item of dashboardLayout; trackBy:trackById">
-                <div class="grid-item-remove-handle" stopEventPropagation (click)="removeItem(item.id)"></div>
+            <ktd-grid-item [id]="item.id" [draggable]="isEdit" [resizable]="isEdit"
+                *ngFor="let item of dashboardLayout; trackBy:trackById">
+                <div class="grid-item-remove-handle" *ngIf="isEdit" (click)="removeItem(item.id)"></div>
                 <div class="card grid-item-card">
+                    <div class="card-header">{{item.data.title}}</div>
                     <div class="card-body">
-                        <h5 class="card-title">{{item.id}} Widget</h5>
                     </div>
                 </div>
-
-                <!-- <div class="ha-card grid-widget-item" *ngIf="item.data.widgetTypeId; else widgetPlaceholder">
-                <app-widget-loader [widgetTypeId]="item.data.widgetTypeId" [widgetLoaded]="item.data.widgetLoaded"
-                    [widgetId]="item.data.widgetId" [widgetData]="item.data.widgetData"
-                    [widgetInfoData]="item.data.widgetInfoData" [widgetNoData]="item.data.widgetNoData"
-                    [widgetError]="item.data.widgetError">
-                </app-widget-loader>
-            </div> -->
             </ktd-grid-item>
         </ktd-grid>
     </form>
