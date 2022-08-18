@@ -14,7 +14,7 @@ export class Widget {
     name: string;
 
     @ApiProperty({
-        example: 'PIECHART',
+        example: 'pie',
         description: 'Type of the widget'
     })
     type: string;
