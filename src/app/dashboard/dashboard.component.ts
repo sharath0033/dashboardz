@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 import { KtdGridLayout, KtdGridLayoutItem, ktdTrackById } from '@saras-analytics/angular-grid-layout';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
-import * as dayjs from 'dayjs';
 
-import { DashboardService } from './dashboard.service';
+import { ApplicationService } from 'src/app/core/application';
+import { AppService, DashboardService } from '../services';
 
 @Component({
   selector: 'app-dashboard',
@@ -45,24 +45,29 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   dashboardForm: FormGroup = new FormGroup({
-    name: new FormControl(null, Validators.required),
+    name: new FormControl({
+      value: null,
+      disabled: true
+    }, Validators.required),
     daterange: new FormControl(this.bsConfig.ranges[0].value, Validators.required),
-    widgets: new FormArray([])
   });
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private location: Location,
-    private dashboardService: DashboardService
+    private applicationService: ApplicationService,
+    private appService: AppService,
+    private dashboardService: DashboardService,
   ) { }
 
   ngOnInit() {
-    console.log(dayjs().format());
     this.subscriptions.add(
       this.route.params.subscribe(_params => {
         this.dashboardId = _params.dashboardId;
         if (this.dashboardId === 'create') {
           this.dashboardForm.reset();
+          this.dashboardForm.get('daterange')?.setValue(this.bsConfig.ranges[0].value);
           this.editDashboard();
         } else {
           this.initializeData();
@@ -78,14 +83,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.dashboardService.getDashboard(this.dashboardId)
         .subscribe({
-          next: (response) => this.setUpDashboard(response),
+          next: (response) => {
+            if (response) {
+              this.dashboardForm.get('name')?.setValue(response.name);
+              this.dashboardForm.get('daterange')?.setValue(response.daterange.map((date: string) => new Date(date)));
+              response.widgets?.forEach((widget: any) => this.dashboardLayout.push(widget));
+            } else {
+              this.router.navigate(['/dashboard', 'create']);
+            }
+          },
           complete: () => this.isPreloader = false
         })
     );
-  }
-
-  setUpDashboard(_dashboard: any): void {
-    this.dashboardForm.get('name')?.setValue(_dashboard.name);
   }
 
   onDateChange(): void {
@@ -98,7 +107,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } */
   }
 
-  addWidgetToLayout(): void {
+  addWidgetToLayout(_data: any): void {
     const maxId = this.dashboardLayout.reduce((_acc, _cur) => Math.max(_acc, parseInt(_cur.id, 10)), -1);
     const lastItem = this.dashboardLayout[this.dashboardLayout.length - 1]
     const nextId = maxId + 1;
@@ -108,14 +117,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       y: lastItem ? (lastItem.y + lastItem.h) : 0,
       w: 4,
       h: 4,
-      data: {
-        entityseqno: nextId,
-        keyid: 0,
-        widgetId: null,
-        widgetTypeId: null,
-        widgetName: null,
-        widgetCategoryId: null,
-      }
+      data: _data
     };
     this.dashboardLayout = [...this.dashboardLayout, newWidgetItem];
   }
@@ -139,10 +141,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   editDashboard(): void {
     this.isEdit = true;
+    this.dashboardForm.get('name')?.enable();
   }
 
   discardChanges(): void {
-    this.isEdit = false;
+    this.dashboardForm.get('name')?.disable();
     if (this.dashboardId === 'create') {
       this.location.back();
     } else {
@@ -151,7 +154,48 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   saveChanges(): void {
+    this.applicationService.setPreloader(true);
 
+    const payload = {
+      name: this.dashboardForm.get('name')?.value,
+      daterange: this.dashboardForm.get('daterange')?.value.map((date: Date) => date.toISOString()),
+      widgets: this.dashboardLayout.map(item => item)
+    };
+
+    if (this.dashboardId === 'create') {
+      this.subscriptions.add(
+        this.dashboardService.createDashboard(payload).subscribe({
+          next: response => {
+            this.appService.setReloadState(true);
+            this.router.navigate(['/dashboards', response.id]);
+          },
+          complete: () => this.applicationService.setPreloader(false),
+        })
+      );
+    } else {
+      this.subscriptions.add(
+        this.dashboardService.updateDashboard(this.dashboardId, payload).subscribe({
+          next: () => {
+            this.appService.setReloadState(true);
+            this.initializeData();
+          },
+          complete: () => this.applicationService.setPreloader(false),
+        })
+      );
+    }
+  }
+
+  deleteDashboard(): void {
+    this.applicationService.setPreloader(true);
+    this.subscriptions.add(
+      this.dashboardService.deleteDashboard(this.dashboardId).subscribe({
+        next: () => {
+          this.appService.setReloadState(true);
+          this.router.navigate(['/dashboards', 'create']);
+        },
+        complete: () => this.applicationService.setPreloader(false),
+      })
+    );
   }
 
   ngOnDestroy(): void {
