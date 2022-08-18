@@ -19,7 +19,7 @@ export class ChartWidgetComponent implements OnInit, OnDestroy {
   @Input() widgetMapping!: any;
   @Input() dateRange!: Date[];
   isLoading: boolean = true;
-  widgetData: any[] = [];
+  noDataIndicator: boolean = false;
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
   chartOptions!: ChartConfiguration['options'];
@@ -28,12 +28,17 @@ export class ChartWidgetComponent implements OnInit, OnDestroy {
   constructor(private widgetService: WidgetService) { }
 
   ngOnInit(): void {
+    this.noDataIndicator = false;
     this.subscriptions.add(
       this.widgetService.getWidgetData(this.dateRange)
         .subscribe({
           next: response => {
-            this.initializeData(response);
-            this.chart?.render();
+            if (response?.length) {
+              this.initializeData(response);
+              this.chart?.render();
+            } else {
+              this.noDataIndicator = true;
+            }
           },
           complete: () => this.isLoading = false,
         })

@@ -1,7 +1,13 @@
-<ng-container *ngIf="!isLoading; else preloader">
+<ng-container *ngIf="!(isLoading || noDataIndicator); else noData">
     <canvas baseChart [data]="chartData" [type]="chartType" [options]="chartOptions">
     </canvas>
 </ng-container>
+<ng-template #noData>
+    <div class="no-data-container" *ngIf="!isLoading; else preloader">
+        <i class="icon-exclamation"></i>
+        <div class="no-data-text">No data available</div>
+    </div>
+</ng-template>
 <ng-template #preloader>
     <app-preloader></app-preloader>
 </ng-template>
