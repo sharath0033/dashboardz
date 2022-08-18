@@ -1,0 +1,7 @@
+<ng-container *ngIf="!isLoading; else preloader">
+    <canvas baseChart [data]="chartData" [type]="chartType" [options]="chartOptions">
+    </canvas>
+</ng-container>
+<ng-template #preloader>
+    <app-preloader></app-preloader>
+</ng-template>

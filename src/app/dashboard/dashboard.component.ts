@@ -115,8 +115,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       id: nextId.toString(),
       x: 0,
       y: lastItem ? (lastItem.y + lastItem.h) : 0,
-      w: 4,
-      h: 4,
+      w: 15,
+      h: 15,
       data: _data
     };
     this.dashboardLayout = [...this.dashboardLayout, newWidgetItem];

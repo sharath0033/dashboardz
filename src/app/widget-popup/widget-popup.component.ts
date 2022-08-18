@@ -22,39 +22,45 @@ export class WidgetPopupComponent implements OnInit, OnDestroy {
   });
   chertTypesList: any[] = [{
     label: 'Pie',
-    refcode: 'PIECHART',
+    refcode: 'pie',
     controls: [{
       label: 'Label',
       key: 'label',
-      type: 'DROPDOWN'
+      type: 'DROPDOWN',
+      multiple: false,
     }, {
       label: 'Value',
       key: 'value',
-      type: 'DROPDOWN'
+      type: 'DROPDOWN',
+      multiple: false,
     }]
   }, {
     label: 'Bar',
-    refcode: 'BARCHART',
+    refcode: 'bar',
     controls: [{
       label: 'X Axis',
       key: 'xaxis',
-      type: 'DROPDOWN'
+      type: 'DROPDOWN',
+      multiple: false,
     }, {
       label: 'Y Axis',
       key: 'yaxis',
-      type: 'DROPDOWN'
+      type: 'DROPDOWN',
+      multiple: false,
     }]
   }, {
     label: 'Line',
-    refcode: 'LINECHART',
+    refcode: 'line',
     controls: [{
       label: 'X Axis',
       key: 'xaxis',
-      type: 'DROPDOWN'
+      type: 'DROPDOWN',
+      multiple: false,
     }, {
       label: 'Y Axis',
       key: 'yaxis',
-      type: 'DROPDOWN'
+      type: 'DROPDOWN',
+      multiple: false,
     }]
   }]
 

@@ -25,14 +25,18 @@
                 </div>
             </div>
         </div>
-        <ktd-grid *ngIf="dashboardLayout.length; else noWidgetsRef" [cols]="16" [rowHeight]="50"
+        <ktd-grid *ngIf="dashboardLayout.length; else noWidgetsRef" [cols]="50" [rowHeight]="20"
             [layout]="dashboardLayout" (layoutUpdated)="onLayoutUpdated($event)">
             <ktd-grid-item [id]="item.id" [draggable]="isEdit" [resizable]="isEdit"
                 *ngFor="let item of dashboardLayout; trackBy:trackById">
-                <div class="grid-item-remove-handle" *ngIf="isEdit" (click)="removeItem(item.id)"></div>
-                <div class="card grid-item-card">
+                <div class="grid-item-remove-handle" *ngIf="isEdit" stopEventPropagation (click)="removeItem(item.id)">
+                </div>
+                <div class="card grid-item-card" [ngClass]="{'draggable-card': isEdit}">
                     <div class="card-header">{{item.data.title}}</div>
                     <div class="card-body">
+                        <app-chart-widget [widgetId]="item.id" [chartType]="item.data.type"
+                            [widgetMapping]="item.data.mapping" [dateRange]="dashboardForm.get('daterange')?.value">
+                        </app-chart-widget>
                     </div>
                 </div>
             </ktd-grid-item>
