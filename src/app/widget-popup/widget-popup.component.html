@@ -5,9 +5,9 @@
     <div class="modal-body">
         <h4 class="mb-3">Select Widget</h4>
         <ul class="widgets-list">
-            <li class="card" *ngFor="let chart of chertTypesList"
+            <li *ngFor="let chart of chertTypesList"
                 [ngClass]="{'active': chart.refcode === selectedChartType?.refcode}" (click)="selectChartType(chart)">
-                <div class="card-body">{{chart.label}}</div>
+                <i class="chart-icon" [ngClass]="chart.icon"></i>
             </li>
         </ul>
         <form class="mapping-form" *ngIf="selectedChartType" [formGroup]="widgetForm">
