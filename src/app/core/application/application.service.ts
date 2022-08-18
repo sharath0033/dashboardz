@@ -7,13 +7,13 @@ import { Subscription, BehaviorSubject } from 'rxjs';
 })
 export class ApplicationService implements OnDestroy {
   private subscriptions: Subscription = new Subscription();
-  private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   private preloaderState = new BehaviorSubject<boolean>(false);
 
   constructor() { }
 
   setContentTypeHeader(): HttpHeaders {
-    return this.headers;
+    let headers = { 'Content-Type': 'application/json' };
+    return new HttpHeaders(headers);
   }
 
   handleError(error: any): Promise<any> {

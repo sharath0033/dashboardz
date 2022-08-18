@@ -167,7 +167,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.dashboardService.createDashboard(payload).subscribe({
           next: response => {
             this.appService.setReloadState(true);
-            this.router.navigate(['/dashboards', response.id]);
+            this.router.navigate(['/dashboards', response]);
           },
           complete: () => this.applicationService.setPreloader(false),
         })
