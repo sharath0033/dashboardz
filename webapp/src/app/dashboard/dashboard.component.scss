@@ -45,6 +45,7 @@
         }
         .card-body {
             padding: 0;
+            height: calc(100% - 38px);
         }
     }
     ::ng-deep {
