@@ -25,8 +25,17 @@ export class AppService {
     });
   }
 
-  async getWidgetData(_body: string[]): Promise<any[]> {
-    const filePath = join(__dirname, './resources/ads_data.json');
-    return await this.fsService.readFile(filePath);
+  async getWidgetData(_body: any): Promise<any[]> {
+    const startDate = new Date(_body.dateRange[0]).getTime();
+    const endDate = new Date(_body.dateRange[1]).getTime();
+
+    const rawData: any[] = await this.fsService.readFile(
+      join(__dirname, './resources/ads_data.json')
+    );
+
+    return rawData.filter(item => {
+      let time = new Date(item.date).getTime();
+      return (startDate <= time && time <= endDate);
+    });
   }
 }

@@ -27,7 +27,7 @@ export class AppController {
     description: 'Widget data response',
     isArray: true,
   })
-  async getWidgetData(@Body() body: string[]): Promise<any[]> {
+  async getWidgetData(@Body() body: any): Promise<any[]> {
     return await this.appService.getWidgetData(body);
   }
 }
