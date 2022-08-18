@@ -22,6 +22,7 @@ export class WidgetPopupComponent implements OnInit, OnDestroy {
   });
   chertTypesList: any[] = [{
     label: 'Pie',
+    icon: 'icon-pie-chart',
     refcode: 'pie',
     controls: [{
       label: 'Label',
@@ -36,6 +37,7 @@ export class WidgetPopupComponent implements OnInit, OnDestroy {
     }]
   }, {
     label: 'Bar',
+    icon: 'icon-bar-chart',
     refcode: 'bar',
     controls: [{
       label: 'X Axis',
@@ -50,6 +52,7 @@ export class WidgetPopupComponent implements OnInit, OnDestroy {
     }]
   }, {
     label: 'Line',
+    icon: 'icon-line-chart',
     refcode: 'line',
     controls: [{
       label: 'X Axis',

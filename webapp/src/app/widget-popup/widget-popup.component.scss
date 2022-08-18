@@ -16,15 +16,22 @@
                     margin: 0;
                     padding: 0;
                     display: flex;
-                    justify-content: space-between;
+                    justify-content: space-around;
                     margin-bottom: 10px;
                     li {
                         cursor: pointer;
-                        min-width: 100px;
-                        min-height: 100px;
-                        border: 1px solid lightgray;
+                        padding: 6px 16px;
+                        border: 1px solid transparent;
+                        border-radius: 10px;
+                        &:hover {
+                            background-color: #ededed;
+                        }
                         &.active {
-                            border-color: blue;
+                            border-color: #009eff;
+                            background-color: #d8f5ff;
+                        }
+                        .chart-icon {
+                            font-size: 34px;
                         }
                     }
                 }
