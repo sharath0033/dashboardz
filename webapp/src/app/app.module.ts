@@ -15,12 +15,14 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { WidgetPopupComponent } from './widget-popup/widget-popup.component';
+import { PreloaderComponent } from './preloader/preloader.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     WidgetPopupComponent,
+    PreloaderComponent,
   ],
   imports: [
     BrowserModule,
