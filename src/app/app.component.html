@@ -18,6 +18,9 @@
                             </a>
                         </li>
                     </ng-container>
+                    <ng-template #preloader>
+                        <app-preloader></app-preloader>
+                    </ng-template>
                     <li class="nav-item create-dahboard-button">
                         <button class="btn btn-sm btn-outline-primary" [routerLink]="['/dashboards', 'create']"
                             routerLinkActive="router-link-active">
@@ -31,10 +34,5 @@
     </div>
 </div>
 <div id="preloader-overlay" *ngIf="isAppPreloader">
-    <span id="preloader" class="spinner-border" role="status" aria-hidden="true"></span>
+    <app-preloader></app-preloader>
 </div>
-<ng-template #preloader>
-    <div class="d-flex justify-content-center">
-        <span class="spinner-border" role="status" aria-hidden="true"></span>
-    </div>
-</ng-template>
