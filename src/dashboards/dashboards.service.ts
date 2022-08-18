@@ -37,14 +37,11 @@ export class DashboardsService {
         } : null;
     }
 
-    async createDashboard(body: DashboardDto): Promise<Dashboard> {
+    async createDashboard(body: DashboardDto): Promise<string> {
         const querySnapshot = await this.fbFirestore
             .collection('dashboards')
             .add(body);
-        return {
-            id: querySnapshot.id,
-            ...body
-        };
+        return querySnapshot.id;
     }
 
     async updateDashboard(dashboardId: string, body: DashboardDto): Promise<void> {
