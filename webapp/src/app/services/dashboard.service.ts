@@ -27,10 +27,11 @@ export class DashboardService {
 
     createDashboard(payload: any): Observable<any> {
         const headers = this.applicationService.setContentTypeHeader();
+        const requestOptions: Object = { headers, responseType: 'text' };
         return this.http.post<any>(
             `${environment.serviceURL}/dashboards`,
             payload,
-            { headers }
+            requestOptions
         ).pipe(
             catchError(err => this.applicationService.handleError(err))
         );
