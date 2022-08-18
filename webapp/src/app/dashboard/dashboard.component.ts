@@ -97,14 +97,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
 
-  onDateChange(): void {
-    /* if (value.length > 0) {
-      dashboard.layout.forEach(layoutItem => {
-        layoutItem.data.widgetData = null;
-        layoutItem.data.widgetLoaded = false;
-      });
-      this.loadViewsWidgets(dashboard);
-    } */
+  onDateChange($event: Date[]): void {
+    if ($event) {
+      const tempLayout = [...this.dashboardLayout];
+      this.dashboardLayout = [];
+      setTimeout(() => this.dashboardLayout = [...tempLayout], 10);
+    }
   }
 
   addWidgetToLayout(_data: any): void {

@@ -20,7 +20,7 @@
                 <app-widget-popup *ngIf="isEdit" (event)="addWidgetToLayout($event)"></app-widget-popup>
                 <div class="dashboard-daterange">
                     <input type="text" class="form-control" placeholder="Daterangepicker" bsDaterangepicker
-                        formControlName="daterange" (ngModelChange)="onDateChange()" [bsConfig]="bsConfig"
+                        formControlName="daterange" (ngModelChange)="onDateChange($event)" [bsConfig]="bsConfig"
                         [maxDate]="maxReportDate" placement="bottom right" />
                 </div>
             </div>
