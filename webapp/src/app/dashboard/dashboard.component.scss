@@ -38,6 +38,14 @@
     }
     .grid-item-card {
         height: 100%;
+        display: block;
+        overflow: hidden;
+        &.draggable-card {
+            border-style: dashed;
+        }
+        .card-body {
+            padding: 0;
+        }
     }
     ::ng-deep {
         .grid-item-resize-icon {

@@ -25,7 +25,7 @@ export class AppService {
     });
   }
 
-  async getRawdata(): Promise<any[]> {
+  async getWidgetData(_body: string[]): Promise<any[]> {
     const filePath = join(__dirname, './resources/ads_data.json');
     return await this.fsService.readFile(filePath);
   }

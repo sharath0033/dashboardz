@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 import { AppService } from './app.service';
@@ -20,14 +20,14 @@ export class AppController {
     return await this.appService.getDimensions();
   }
 
-  @Get('rawdata')
-  @ApiOperation({ summary: 'Get raw data' })
+  @Post('widgetdata')
+  @ApiOperation({ summary: 'Get widget data' })
   @ApiResponse({
     status: 200,
-    description: 'Raw data response',
+    description: 'Widget data response',
     isArray: true,
   })
-  async getRawdata(): Promise<any[]> {
-    return await this.appService.getRawdata();
+  async getWidgetData(@Body() body: string[]): Promise<any[]> {
+    return await this.appService.getWidgetData(body);
   }
 }

@@ -24,4 +24,15 @@ export class WidgetService {
             catchError(err => this.applicationService.handleError(err))
         );
     }
+
+    getWidgetData(_dateRange: Date[]): Observable<any> {
+        const headers = this.applicationService.setContentTypeHeader();
+        return this.http.post<any>(
+            `${environment.serviceURL}/widgetdata`,
+            { dateRange: _dateRange.map((date: Date) => date.toISOString()) },
+            { headers }
+        ).pipe(
+            catchError(err => this.applicationService.handleError(err))
+        );
+    }
 }
