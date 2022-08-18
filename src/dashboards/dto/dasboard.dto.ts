@@ -6,9 +6,7 @@ export class DashboardDto {
 
     name: string;
 
-    daterangefrom: number;
-
-    daterangeto: number;
+    daterange: string[];
 
     widgets: WidgetDto[];
 }

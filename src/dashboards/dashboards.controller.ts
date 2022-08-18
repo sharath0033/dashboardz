@@ -39,7 +39,7 @@ export class DashboardsController {
         status: 200,
         description: 'Create Dashboard',
     })
-    async createDashboard(@Body() body: DashboardDto): Promise<string> {
+    async createDashboard(@Body() body: DashboardDto): Promise<Dashboard> {
         return await this.dashboardsService.createDashboard(body);
     }
 
@@ -52,7 +52,7 @@ export class DashboardsController {
     async updateDashboard(
         @Param('id') dashboardId: string,
         @Body() body: DashboardDto,
-    ): Promise<string> {
+    ): Promise<void> {
         return await this.dashboardsService.updateDashboard(dashboardId, body);
     }
 

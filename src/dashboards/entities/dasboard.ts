@@ -16,16 +16,10 @@ export class Dashboard {
     name: string;
 
     @ApiProperty({
-        example: 1234562345,
-        description: 'Dashboard from date'
+        example: ['2022-08-18T03:05:00+05:30', '2022-08-18T03:05:00+05:30'],
+        description: 'Dashboard date range'
     })
-    daterangefrom?: number;
-
-    @ApiProperty({
-        example: 1234562345,
-        description: 'Dashboard to date'
-    })
-    daterangeto?: number;
+    daterange?: string[];
 
     @ApiProperty({
         example: [Widget],

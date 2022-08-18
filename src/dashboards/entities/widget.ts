@@ -2,6 +2,12 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class Widget {
     @ApiProperty({
+        example: '1',
+        description: 'Id of the widget'
+    })
+    id: string;
+
+    @ApiProperty({
         example: 'Revenue widget',
         description: 'Name of the widget'
     })
