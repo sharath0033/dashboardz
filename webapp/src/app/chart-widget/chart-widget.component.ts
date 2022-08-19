@@ -1,11 +1,11 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
+import { BaseChartDirective } from 'ng2-charts';
 import { Subscription } from 'rxjs';
 
 import { WidgetService } from '../services';
 
 
-import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
-import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
   selector: 'app-chart-widget',
@@ -65,23 +65,27 @@ export class ChartWidgetComponent implements OnInit, OnDestroy {
       }
       case 'bar':
       case 'line': {
+        const scales = this.widgetMapping.yaxis.map((item: string) => {
+          return
+        })
         this.chartOptions = {
           ...defaultOptions,
           scales: {
-            x: {},
+            x: {
+              title: {
+                display: true,
+                text: this.titleCase(this.widgetMapping.xaxis)
+              },
+            },
             y: {
-              min: 10
-            }
+              title: {
+                display: true,
+                text: this.widgetMapping.yaxis.map((item: string) => this.titleCase(item)).join(', ')
+              },
+            },
           },
         };
-        this.chartData = {
-          labels: ['2006', '2007', '2008', '2009', '2010', '2011', '2012'],
-          datasets: [
-            { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-            { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
-          ]
-        };
-        this.barChartFormatter(_data);
+        this.chartData = this.barChartFormatter(_data);
         break;
       }
     }
@@ -111,7 +115,41 @@ export class ChartWidgetComponent implements OnInit, OnDestroy {
   barChartFormatter(_data: any[]): any {
     let hashmap: any = {};
     let labels: any[] = [];
-    let data: any[] = [];
+    let datasets: any[] = [];
+
+    _data.forEach(item => {
+      this.widgetMapping.yaxis.forEach((yaxis: string) => {
+        const labelKey = item[this.widgetMapping.xaxis];
+        if (!hashmap[yaxis]) {
+          hashmap[yaxis] = {};
+        }
+        hashmap[yaxis][labelKey] = (hashmap[yaxis][labelKey] || 0) + item[yaxis];
+      });
+    })
+
+    Object.entries(hashmap).forEach((item: any) => {
+      labels = [];
+      let data: any[] = [];
+      Object.entries(item[1]).forEach(([key, value]) => {
+        labels.push(key);
+        data.push(value);
+      })
+      datasets.push({
+        data,
+        label: this.titleCase(item[0])
+      })
+    })
+
+    return { labels, datasets }
+  }
+
+  titleCase(_string: string): string {
+    let sentence = _string.toLowerCase().split('_');
+    for (let i = 0; i < sentence.length; i++) {
+      sentence[i] = sentence[i][0].toUpperCase() + sentence[i].slice(1);
+    }
+
+    return sentence.join('');
   }
 
   ngOnDestroy() {
