@@ -7,7 +7,7 @@ import { AppModule } from './app.module';
 import { AppLogger, RequestIdMiddleware } from './common';
 
 async function bootstrap() {
-  const PORT = parseInt(process.env.PORT) || 3000;
+  const PORT = process.env.PORT || 3000;
   const URL = `http://localhost:${PORT}/api`;
   const app = await NestFactory.create(AppModule, { cors: true });
 
