@@ -25,7 +25,8 @@
                         </ng-container>
                         <ng-container *ngSwitchCase="'DROPDOWN'">
                             <ng-select class="select-form-control" [items]="dimensionsList" [selectOnTab]="true"
-                                bindLabel="name" bindValue="name" [hideSelected]="true" [formControlName]="control.key">
+                                [multiple]="control.value.multiple" bindLabel="name" bindValue="name"
+                                [hideSelected]="true" [formControlName]="control.key">
                             </ng-select>
                         </ng-container>
                     </ng-container>

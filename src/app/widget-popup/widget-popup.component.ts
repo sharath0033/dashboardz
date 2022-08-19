@@ -48,7 +48,7 @@ export class WidgetPopupComponent implements OnInit, OnDestroy {
       label: 'Y Axis',
       key: 'yaxis',
       type: 'DROPDOWN',
-      multiple: false,
+      multiple: true,
     }]
   }, {
     label: 'Line',
@@ -63,7 +63,7 @@ export class WidgetPopupComponent implements OnInit, OnDestroy {
       label: 'Y Axis',
       key: 'yaxis',
       type: 'DROPDOWN',
-      multiple: false,
+      multiple: true,
     }]
   }]
 
@@ -76,6 +76,7 @@ export class WidgetPopupComponent implements OnInit, OnDestroy {
 
   openWidgetPopup(_template: TemplateRef<any>) {
     this.isLoading = true;
+    this.selectedChartType = null;
     this.modalRef = this.modalService.show(_template, {
       ignoreBackdropClick: true,
       class: 'modal-dialog-centered widget-dialog'
@@ -97,6 +98,7 @@ export class WidgetPopupComponent implements OnInit, OnDestroy {
       const chartcontrol: any = new FormControl(null, Validators.required);
       chartcontrol.type = control.type;
       chartcontrol.label = control.label;
+      chartcontrol.multiple = control.multiple;
       chartForm.addControl(control.key, chartcontrol);
     });
     this.widgetForm.addControl('mapping', chartForm);
