@@ -29,5 +29,9 @@ Run `docker-compose up` to run the services as local docker containers.
 | Angular Webapp     | [http://localhost:4200](http://localhost:4200)                     | Yes          |
 
 
+## Known issues
 
-
+1. Sill working on Bar and Line chart data fromatting
+2. Data is not getting exported from Firestore when running in local emulator
+3. Edit widget functionality isn't supported yet
+4. The raw data is read from filesysyem rather than storing on the database
