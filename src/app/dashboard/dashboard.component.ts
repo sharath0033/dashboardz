@@ -66,6 +66,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.route.params.subscribe(_params => {
         this.dashboardId = _params.dashboardId;
         if (this.dashboardId === 'create') {
+          this.dashboardLayout = [];
           this.dashboardForm.reset();
           this.dashboardForm.get('daterange')?.setValue(this.bsConfig.ranges[0].value);
           this.editDashboard();
