@@ -1,73 +1,35 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Services
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Highlevel dahboard services.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Environment variables setup
+  Create `.env` from `.env.example` and set below environment variables to connect to remote firebase firestore database
 
-## Description
+> PORT="3000"
+> 
+> ENVIRONMENT="local"
+> 
+> GOOGLE_APPLICATION_CREDENTIALS="eyJ0eXBlIjoic2VydmljZV9hY2NvdW50IiwicHJvamVjdF9pZCI6ImhpZ2hsZXZlbC02OGVkMyIsInByaXZhdGVfa2V5X2lkIjoiMjc2M2QwNGM2ZGY4NDBjZGU5MmVlYjgwYzk4YjE3NGFhN2QxOTY1ZCIsInByaXZhdGVfa2V5IjoiLS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tXG5NSUlFdndJQkFEQU5CZ2txaGtpRzl3MEJBUUVGQUFTQ0JLa3dnZ1NsQWdFQUFvSUJBUUNsa0cvOXFEbmZVVFhnXG5ETXlTaWJhb2ZHcFh4UXdOKzN1Z0gyNlYzSG5WdTZCL1ZmQ21lZ0xvaHdrNHM4L0cvZXlJdkdQbjk4VU9vc3E0XG5sNTM2aEhTTDg1RDVzMm1OemVNS2QxYXBEWk1Vdm5XNUYvcmdiMnVvYmRRdmVuQTF0K2JBOGFxYnU1NElaZmNGXG5VWVlPQVp2ZllpcVdWemFCR281cU4xb3ZZTERvRElLdHlpSUdYWTRkQlJsb2srbjhiWE5kMWRYeU1MeVk3TTNBXG4zWXVFNXpobVlzZ0pZbFpsbEhpMktJTjRSK1VBWTkzc0tIYlU4eW9xVlE3NEc0V21FdnZaSTIybmYva2YxbFM2XG5JR2hidnloWU9WK2REdFVXaml5S3lGMVRhRmQ4U1ljRFAraHJxNkZibk1LVjBvQkczTjdzMGF6b09XeXpxVGdhXG5LdW5lVGNYekFnTUJBQUVDZ2dFQUVYYlA2V0RTWWZVT0Nza3UxeEpCdXpvTWVaK21hdDhwSmpYS2szSkRROEZiXG41N0tvQk5kLzhRazFkczY0enhPLzNKaUtyVkJjYi9QS0VIaWx5R1FxYXd6Uk1SVzB2Nm1GRm5pS0lxRDA3ODQ3XG5Xci9semNEVENWdzBjcUdtcm5Qc21sT2puSFBJOHJmV3U2L2l4UjEwVkxibEtTQ2Y5alJYNjJwVlVBUVNCUmdKXG5DZG4xTE81U2RtdERuczd0ZkRPYXRvZTJJcEZiK25TZERVSEw3UlA0MHg4bldGa3JkSWhsYlp5Tmw3eC91TmdMXG5RaUhIeVdkZTc5QXhxcDFUOThRaFVHcXlUcTFyYWkxWlJDWHJ1SjAwQlZYbWZBbmZueHluNzkvYlI0eERwcldsXG51ejZWeDh0RjhLbG4rUXRMU29QZ2x4V1p0ZmJDL09zcWppYlpHeWtMQVFLQmdRRGw5UXRaZURjYnFISnlIRllHXG4veitkNFRKYWpkakFQZ3l2T01LQTIzRExBdXZZTUQ5bGJteVB1a3pHMGFmSk8rVzlObWtsdUZ2Nmg0N0xXbTI2XG5JNzdJd2lNRVhkRENsTEx3V1M0LzNIYjFRZGpGMFU5QlNEUkt6U0VKSnl3YitvbG8yMitVdDlKNy9HVk9seWFuXG5hcEtidEdSalh2TlhuNDNlc0lMWHlwenhnUUtCZ1FDNFVJQlBXczVNRUNjdnBWSFYvRzlpRjFkYmRkZGtQRmJsXG42ajdGTzNIOHNwb2pBZU9wVWZhTVhnZXZtdUlMZjNscnhFTW5FdXRpTFdFVGFHUDRJUGdQME1DS3RxM0Q4Z1ZoXG5TV01KSEk3eGp2U1dCVnM3N2pBbE1XS2hIQkcvN3Q4cnlZVDNjVXpoUEc1WSsyY1JIbUtwblV0TXZMRjUyb1JSXG5DQ01lQ2EvSmN3S0JnUURRV0s2Sng0T1dpWTMzbVhqUUtoK0hlZXZYWThGSW5HOTlxbDEveGxKeGZSb1Y2OURrXG5vNkcwcjBTMHRtdmd4V1luZ3M3Tm9EV2x6WUF3K3FPRURMTGt6aEJQK25nVWRBbVQvaGtMUDBLQWY4SlpxSVM0XG5UeVVoeUt6djBCQUU0WC95QXk4YmZWazFnTDZBOEMzVGJabWJmVnVmTlA0aEc2eThZUXlMVzBYTEFRS0JnUUNxXG5LYUFjSXpDY3Bya1cwdUVYMXdPYUl3U0NxdXZkWFp1NGppZS9mWjlCOWo0NW5hL3FqWUk2bTBFclRhbnRoWlc2XG4rYW9wczl6ZWVoaktpekRvVHIvV0Voc0F0YUQ5YXo2dVQ4dUFDUDZyWXhqS1BFMjdxYTZIVisyLzRpTTgrTExQXG5RVEJpSmhjZFJ1WjFmanpzWUFva245UjZGeWNlNGJBUkE1c3dTeThnb3dLQmdRQ2k2QkhDa2REQVBvZS9GQjNzXG56TCs4aVRBUEN6VGNXTW1nUEorRC90M05xRWx4KysvVFZIbW5JWDRKektXZTYrN2MwcmRMVlkxVUZMY1l4aTkzXG5VVEZaQXpyNUlXL0s5M0YxWi9wV09KdVRMbDQ5UlNUcXNFY05aOWVpV3VJM1JvMWVXN1ZhUnZ0STRVNjFvbnZRXG5lNnlEZVV5aHdYb2ZlU2p4Y3V5ekxvQk1uUT09XG4tLS0tLUVORCBQUklWQVRFIEtFWS0tLS0tXG4iLCJjbGllbnRfZW1haWwiOiJmaXJlYmFzZS1hZG1pbnNkay10YXptN0BoaWdobGV2ZWwtNjhlZDMuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLCJjbGllbnRfaWQiOiIxMTgzMjQ1NzM5ODA0NTk2MzQzNjciLCJhdXRoX3VyaSI6Imh0dHBzOi8vYWNjb3VudHMuZ29vZ2xlLmNvbS9vL29hdXRoMi9hdXRoIiwidG9rZW5fdXJpIjoiaHR0cHM6Ly9vYXV0aDIuZ29vZ2xlYXBpcy5jb20vdG9rZW4iLCJhdXRoX3Byb3ZpZGVyX3g1MDlfY2VydF91cmwiOiJodHRwczovL3d3dy5nb29nbGVhcGlzLmNvbS9vYXV0aDIvdjEvY2VydHMiLCJjbGllbnRfeDUwOV9jZXJ0X3VybCI6Imh0dHBzOi8vd3d3Lmdvb2dsZWFwaXMuY29tL3JvYm90L3YxL21ldGFkYXRhL3g1MDkvZmlyZWJhc2UtYWRtaW5zZGstdGF6bTclNDBoaWdobGV2ZWwtNjhlZDMuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20ifQ=="
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
 ## Installation
 
 ```bash
-$ npm install
+$ yarn install
 ```
 
-## Running the app
+## Running the app(Development)
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+$ yarn start:dev
 ```
+ Navigate to `http://localhost:3000/`.
+ 
+Swagger documentation `http://localhost:3000/api/docs`.
 
-## Test
+## Build app(Production)
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+$ yarn build
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+The build artifacts will be stored in the `dist/` directory.
