@@ -45,10 +45,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   dashboardForm: FormGroup = new FormGroup({
-    name: new FormControl({
-      value: null,
-      disabled: true
-    }, Validators.required),
+    name: new FormControl(null, Validators.required),
     daterange: new FormControl(this.bsConfig.ranges[0].value, Validators.required),
   });
 
@@ -68,6 +65,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         if (this.dashboardId === 'create') {
           this.dashboardLayout = [];
           this.dashboardForm.reset();
+          this.dashboardForm.get('name')?.disable();
           this.dashboardForm.get('daterange')?.setValue(this.bsConfig.ranges[0].value);
           this.editDashboard();
         } else {
