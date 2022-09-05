@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  serviceURL: `https://highlevel-dashboard-services.herokuapp.com/api`,
+  serviceURL: `https://dashboardz-services.herokuapp.com/api`,
 };

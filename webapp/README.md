@@ -1,6 +1,6 @@
 # Webapp
 
-Highlevel dahboard webapp.
+Dashboardz webapp.
 
 
 ## Installation

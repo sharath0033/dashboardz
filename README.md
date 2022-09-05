@@ -1,4 +1,6 @@
-# Highlevel Dashboard Monorepo
+# Dashboardz Monorepo
+
+**Demo**: [Link](https://dashboardz.netlify.app)
 
 ## Tech Stack
 - Frontend: Angular
@@ -32,5 +34,4 @@ Run `docker-compose up` to run the services as local docker containers.
 ## Known issues
 
 1. Data is not getting exported from Firestore when running in local emulator
-2. Edit widget functionality isn't supported yet
-3. The raw data is read from filesysyem rather than storing on the database
+2. The raw data is read from filesystem rather than storing on the database

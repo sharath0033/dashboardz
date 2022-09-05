@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  serviceURL: `http://localhost:3000/api`,
+  //serviceURL: `http://localhost:3000/api`,
+  serviceURL: `https://dashboardz-services.herokuapp.com/api`,
 };
 
 /*
