@@ -26,8 +26,8 @@ async function bootstrap() {
    * Swagger API documentation setup
    */
   const config = new DocumentBuilder()
-    .setTitle('Highlevel Services')
-    .setDescription('The Highlevel Services API description')
+    .setTitle('Dashboardz Services')
+    .setDescription('The Dashboardz Services API description')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
