@@ -15,9 +15,8 @@ export class AppController {
     status: 200,
     description: 'Translate text',
   })
-  async translate(@Body() body: any): Promise<string> {
-    const res = await translate(body.text, { to: body.language });
-    return res.text;
+  async translate(@Body() body: any): Promise<any> {
+    return await translate(body.text, { to: body.language });
   }
 
   @Get('dimensions')
