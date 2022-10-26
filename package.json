@@ -27,6 +27,7 @@
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^6.0.5",
+    "@vitalets/google-translate-api": "^8.0.0",
     "class-validator": "^0.13.2",
     "compression": "^1.7.4",
     "fs-extra": "^10.1.0",
@@ -74,8 +75,5 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  },
-  "engines": {
-    "node": "14.16.1"
   }
 }

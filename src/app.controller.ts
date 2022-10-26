@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+const translate = require('@vitalets/google-translate-api');
 
 import { AppService } from './app.service';
 import { Dimension } from './entities/dimension.entity';
@@ -7,6 +8,17 @@ import { Dimension } from './entities/dimension.entity';
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) { }
+
+  @Post('translate')
+  @ApiOperation({ summary: 'Translates text to specified language' })
+  @ApiResponse({
+    status: 200,
+    description: 'Translate text',
+  })
+  async translate(@Body() body: any): Promise<string> {
+    const res = await translate(body.text, { to: body.language });
+    return res.text;
+  }
 
   @Get('dimensions')
   @ApiOperation({ summary: 'Get list of dimensions' })
